@@ -1,4 +1,4 @@
-function bfsl(L)
+function bfsl(P, L)
     syms Ys;
     syms Xs;
     syms z;
