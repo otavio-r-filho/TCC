@@ -1,6 +1,6 @@
 function start_mapping()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Author: Ot?vio Gon?alvez Vicente Ribeiro Filho                       %
+%   Author: Otavio Goncalvez Vicente Ribeiro Filho                       %
 %   Objective: 2D Mapping With Laser Sensoring                            %
 %   Salvador - Brazil, November 1 2016                                    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -11,6 +11,8 @@ function start_mapping()
     id = vrep.simxStart('127.0.0.1', 19997, true, true, 2000, 5);
     timestep = .05;
     ping = vrep.simxGetPingTime(id);
+    avg_comp_time = 0;
+    comp_cicles = 0;
 
     if id < 0,
         disp('Ocorreu uma falhar na tentativa de conex?o com o V-REP.');
@@ -34,17 +36,18 @@ function start_mapping()
         pts = hokuyo_scan(vrep, id, handles, pos, ori);
         
         subplot(211)
-        %plot([pos(1) pts(1,:) pos(1)], [pos(2) pts(2,:) pos(2)], '.r', pos(1), pos(2), 'ob');
         plot(pts(:,1), pts(:,2), '.r', pos(1), pos(2), 'ob');
         axis([-3.5 3.5 -7 7]);
         axis equal;
         drawnow;
         
-        ping = vrep.simxGetPingTime(id);
+        %ping = vrep.simxGetPingTime(id);
         elapsed = toc;
-        fprintf('Computation took %fms, ping is %f\n', elapsed, ping);
-        fprintf('Pausing for %fms\n', abs((timestep-elapsed) + (ping/2)));
+        avg_comp_time = avg_com_time + elapsed;
+        comp_cicles = comp_cicles+1;
+        avg_comp_time = avg_comp_time/comp_cicles;
+        fprintf('Avarege computation time: %f\n', avg_comp_time);
         %pause(max(timestep-elapsed, 0.01));
-        pause(abs((timestep-elapsed) + (ping/2)));
+        %pause(abs((timestep-elapsed) + (ping/2)));
     end
 end
