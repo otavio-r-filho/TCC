@@ -1,43 +1,23 @@
-function bfsl(P, L)
-    syms Ys;
-    syms Xs;
-    syms z;
-    a = 0;
-    b = 0;
-    n1 = 0;
-    n2 = 0;
-    teta = atan((L(1,2,1)-L(len(1),2,1))/(L(1,1,1)-L(len(1),1,1)));
-
-    for c=1:len(1)
-        a = a + ((L(c,2,1)-Ys)*(L(c,1,1)-Xs));
-        b = b + (((L(c,1,1)-Xs)^2)-((L(c,2,1)-Ys)^2));
-
-        n1 = n1 + (L(c,2,1)-Ys);
-        n2 = n2 + (L(c,1,1)-Xs);
+function [lines, plotlines] = bfsl(L)
+    dims = size(L);
+    len = dimension_length(L);
+    j=1;
+    for i=1:dims(3)
+        [bfit gof output] = fit(L(1:len(i),1,i),L(1:len(i),2,i),'poly1','Robust','Bisquare');
+        if(gof.rsquare < 0 || gof.sse > 50)
+            [bfit gof output] = fit(L(1:len(i),2,i),L(1:len(i),1,i),'poly1','Robust','Bisquare');
+            Yq = L(1,2,i);
+            Yr = L(len(i),2,i);
+            Xq = bfit.p1*Yq + bfit.p2;
+            Xr = bfit.p1*Yr + bfit.p2;
+        else
+            Xq = L(1,1,i);
+            Xr = L(len(i),1,i);
+            Yq = bfit.p1*Yq + bfit.p2;
+            Yr = bfit.p1*Yr + bfit.p2;
+        end
+        lines(1:2,1:2,i) = [Xq Yq; Xr Yr];
+        plotlines(j:j+1,1:2) = [Xq Yq; Xr Yr];
+        j = j+1;
     end
-
-    bfsl = a*(z^2) + b*z - a == 0;
-    eq2 = n1*cos(teta) - n2*sin(teta) == 0;
-
-    solSys = solve([bfsl, eq2], [Xs, Ys, z]);
-
-    hs = (solSys.Ys(1) - L(1,2,1))*cos(teta) - (solSys.Xs(1) - L(1,1,1))*sin(teta);
-
-    deltaX = hs*sin(teta);
-    deltaY = hs*cos(teta);
-
-    Q = [L(1,1,1)+deltaX(1) L(1,2,1)+deltaY(1)];
-    R = [L(len(1),1,1)+deltaX(1) L(len(1),2,1)+deltaY(1)];
-
-    subplot(211)
-    plot(P(:,1), P(:,2), '.r', pos(1), pos(2), 'ob');
-    axis([-3.5 3.5 -7 7]);
-    axis equal;
-
-    subplot(212)
-    plot(Q, R, 'g',  pos(1), pos(2), 'ob');
-    axis([-3.5 3.5 -7 7]);
-    axis equal;
-
-    drawnow;
 end
