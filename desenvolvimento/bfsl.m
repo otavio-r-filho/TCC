@@ -1,4 +1,4 @@
-blfunction [lines] = bfsl(L)
+function [lines] = bfsl(L)
     dims = size(L);
     len = dimension_length(L);
     invert = false;
