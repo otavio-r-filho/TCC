@@ -1,4 +1,4 @@
-function [pts, pos, ori, S, C, H] = test_function(simTime);
+function [pts, pos, ori, S, C, H, L] = test_function(simTime);
 %   This function is designed to perform micro-tests in the algorithms
 %   Testing: 
 
@@ -35,7 +35,8 @@ function [pts, pos, ori, S, C, H] = test_function(simTime);
         end
         
         disp('Calculating clusters and segments...');
-        [S C H] = segmentation(pts, 0.0555);
+        [S C H] = segmentation(pts, 0.1);
+        L = generate_lines(S, 0.013);
         
         disp('Everything done!');
         disp('Closing connection and finishing test!');

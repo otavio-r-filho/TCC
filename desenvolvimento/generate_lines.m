@@ -1,4 +1,4 @@
-function lines = generate_lines(S, e)
+function lines = generate_lines(S, hl)
     lines = [];
     dims = size(S);
     k = 1;
@@ -14,7 +14,7 @@ function lines = generate_lines(S, e)
                 maxH = [0 -1]; %Max H is h and index
                 for j=2:(len(i)-1)
                     h = abs((S(j,2,i) - Pr(2))*cos(teta) - (S(j,1,i) - Pr(1))*sin(teta));
-                    if(maxH(1) < h && h > e)
+                    if(maxH(1) < h && h > hl)
                         maxH = [h j];
                     end
                 end
@@ -35,7 +35,7 @@ function lines = generate_lines(S, e)
             maxH = [0 -1] %Max H is h and index
             for i = 1:len(1)              
                 h = (S(i,2) - Pr(2))*cos(teta) - (S(i,1) - Pr(1))*sin(teta);
-                if(maxH(1) < h && h > e)
+                if(maxH(1) < h && h > hl)
                     maxH = [h i];
                 end
             end

@@ -41,7 +41,7 @@ function start_mapping()
         subplot(211)
         plot(pts(:,1), pts(:,2), '.r', pos(1), pos(2), 'ob');
         axis([-3.5 3.5 -7 7]);
-        axis equal;x
+        axis equal;
         drawnow;
         
         if(~isempty(map))
