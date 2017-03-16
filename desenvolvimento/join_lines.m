@@ -29,9 +29,7 @@ function map = join_lines(map, lines, e, d, hi)
                 Prm = map(2,1:2,j);
                 mapAngle = angleOfLine([Pqm; Prm]);
                 
-                print_lines([Pqm;Prm], [Pql;Prl]);
-                
-                if (((lineAngle-e) <= mapAngle && mapAngle <= (lineAngle+e)) || ((lineAngle+(2*pi)-e) <= mapAngle && mapAngle <= (lineAngle+(2*pi)+e)))
+                if (((lineAngle-e) <= mapAngle && mapAngle <= (lineAngle+e)) || ((lineAngle+pi-e) <= mapAngle && mapAngle <= (lineAngle+pi+e)) || ((lineAngle-pi-e) <= mapAngle && mapAngle <= (lineAngle-pi+e)))
 
                     if (pdist([Prm;Pql]) <= d && pdist([Pqm;Prl]) > pdist([Pqm;Prm]))
                         map(:,:,j) = [Pqm;Prl];
@@ -44,25 +42,33 @@ function map = join_lines(map, lines, e, d, hi)
                         break;                     
                     elseif (pdist([Pqm;Pql]) <= d && pdist([Prl;Prm]) > pdist([Pqm;Prm]))
                         map(:,:,j) = [Prl;Prm];
-                        break;
+                        break;             
                     elseif (abs(dist2line([Pqm; Prm], Pql)) <= hi && pdist([Pql;Prl]) > pdist([Pql;Prm]) && pdist([Pqm;Prl]) > pdist([Prl;Prm]))
-                        map(:,:,j) = [Pqm;Prl];
+                        if (pdist([Pqm;Prl]) > pdist([Pqm;Prm]))
+                            map(:,:,j) = [Pqm;Prl];
+                        end
                         break;
                     elseif (abs(dist2line([Pqm; Prm], Prl)) <= hi && pdist([Pql;Prl]) > pdist([Prl;Prm]) && pdist([Pqm;Pql]) > pdist([Pql;Prm]))
-                        map(:,:,j) = [Pqm;Pql];
+                        if (pdist([Pqm;Pql]) > pdist([Pqm;Prm]))
+                            map(:,:,j) = [Pqm;Pql];
+                        end
                         break;                        
                     elseif (abs(dist2line([Pqm; Prm], Prl)) <= hi && pdist([Pql;Prl]) > pdist([Prl;Pqm]) && pdist([Pqm;Pql]) < pdist([Pql;Prm]))
-                        map(:,:,j) = [Pql;Prm];
+                        if (pdist([Pql;Prm]) > pdist([Pqm;Prm]))
+                            map(:,:,j) = [Pql;Prm];
+                        end
                         break;
                     elseif (abs(dist2line([Pqm; Prm], Pql)) <= hi && pdist([Pql;Prl]) > pdist([Pql;Pqm]) && pdist([Pqm;Prl]) < pdist([Prl;Prm]))
-                        map(:,:,j) = [Prl;Prm];
+                        if (pdist([Prl;Prm]) > pdist([Pqm;Prm]))
+                            map(:,:,j) = [Prl;Prm];
+                        end
                         break;
                     elseif (j == mapLinesQty)
                         mapLinesQty = mapLinesQty+1;
                         map(:,:,mapLinesQty) = [Pql;Prl];
                         break;
                     end
-                else
+                elseif (j == mapLinesQty)
                     mapLinesQty = mapLinesQty+1;    
                     map(:,:,mapLinesQty) = [Pql;Prl];
                     break;

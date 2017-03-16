@@ -1,4 +1,4 @@
-function [pts] = hokuyo_TCC(vrep, connId, handle, pos, ori)
+function [pts] = hokuyo_scan(vrep, connId, handle, pos, ori)
 %This function is responsible for acquiring the detected points from the
 %Hokuyo sensor, which are relative to the sensor joint coordinate frame,
 %and delivering the points in the world coordinate frame.

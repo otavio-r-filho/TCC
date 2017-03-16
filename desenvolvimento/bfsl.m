@@ -27,4 +27,5 @@ function [lines] = bfsl(L)
         
         lines(1:2,1:2,i) = [Xq Yq; Xr Yr];
     end
+    
 end

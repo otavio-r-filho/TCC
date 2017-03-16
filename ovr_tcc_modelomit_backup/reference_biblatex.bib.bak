@@ -1,0 +1,9 @@
+% Encoding: UTF-8
+
+@Online{copelia1,
+  author = {Copelia Robotics},
+  title  = {Remote API},
+  url    = {http://www.coppeliarobotics.com/helpFiles/en/remoteApiOverview.htm},
+}
+
+@Comment{jabref-meta: databaseType:biblatex;}

@@ -1,4 +1,4 @@
-function [pts, maps] = test_function2(simTime)
+function [pts, map] = test_function2(simTime)
 disp('Stablishing connection with V-Rep...');
 vrep=remApi('remoteApi');
 vrep.simxFinish(-1);
@@ -22,7 +22,7 @@ else
     while time < simTime
         tic;
 
-        [pos ori] = get_location(vrep, id, handles.hokJoint);
+        [pos, ori] = get_location(vrep, id, handles.hokJoint);
         pts = hokuyo_scan(vrep, id, handles, pos, ori);
 
         subplot(211)
@@ -90,7 +90,7 @@ else
         hold off;
         
         i = i+1;
-        pause(4);
+        pause(1);
     end
     
     fprintf('Map avarage computation time: %f\n', avg_comp_time);
