@@ -4,9 +4,10 @@ function lines = generate_lines(S, hl)
     k = 1;
     
     if(~isempty(S))
+        len = dimension_length(S);
         if(length(dims)==3)
             for i=1:dims(3)
-                len = dimension_length(S);
+                %len = dimension_length(S);
                 Pq = S(1,1:2,i);
                 Pr = S(len(i),1:2,i);
                 %teta = atan((Pq(2)-Pr(2))/(Pq(1)-Pr(1)));
@@ -32,24 +33,23 @@ function lines = generate_lines(S, hl)
             Pq = S(1,1:2);
             Pr = S(len(1),1:2);
             teta = atan((Pq(2)-Pr(2))/(Pq(1)-Pr(1)));
-            maxH = [0 -1] %Max H is h and index
+            maxH = [0 -1]; %Max H is h and index
             for i = 1:len(1)              
-                h = (S(i,2) - Pr(2))*cos(teta) - (S(i,1) - Pr(1))*sin(teta);
+                h = abs((S(i,2) - Pr(2))*cos(teta) - (S(i,1) - Pr(1))*sin(teta));
                 if(maxH(1) < h && h > hl)
                     maxH = [h i];
                 end
             end
             if(maxH(1) > 0)
-                lines(1:maxH(2),1:2,k) = S(1:maxH(2),1:2,i);
+                lines(1:maxH(2),1:2,k) = S(1:maxH(2),1:2);
                 k = k+1;
-                lines(1:(len(1)-maxH(2)+1),1:2,k) = S(maxH(2):len(i),1:2,i);
+                lines(1:(len(1)-maxH(2)+1),1:2,k) = S(maxH(2):len(1),1:2);
                 k = k+1;
             else
-                lines(1:len(i),1:2,k) = S(1:len(i),1:2,i);
+                lines(1:len(1),1:2,k) = S(1:len(1),1:2);
                 k = k+1;
             end
         end
     end
-    
-    
+      
 end

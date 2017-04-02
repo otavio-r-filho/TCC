@@ -21,10 +21,11 @@ function [lines] = bfsl(L)
         else
             Xq = L(1,1,i);
             Xr = L(len(i),1,i);
-            Yq = bfit.p1*Yq + bfit.p2;
-            Yr = bfit.p1*Yr + bfit.p2;
+            Yq = bfit.p1*Xq + bfit.p2;
+            Yr = bfit.p1*Xr + bfit.p2;
         end
         
         lines(1:2,1:2,i) = [Xq Yq; Xr Yr];
     end
+    
 end

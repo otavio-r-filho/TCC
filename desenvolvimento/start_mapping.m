@@ -37,11 +37,11 @@ function start_mapping()
         pts = hokuyo_scan(vrep, id, handles, pos, ori);
         map = build_map(map, pts, 0.1, 0.013, deg2rad(3), 0.102, 0.013);
         
-        clf('reset');
+        clf reset;
         subplot(211)
         plot(pts(:,1), pts(:,2), '.r', pos(1), pos(2), 'ob');
         axis([-3.5 3.5 -7 7]);
-        axis equal;x
+        axis equal;
         drawnow;
         
         if(~isempty(map))
@@ -60,6 +60,7 @@ function start_mapping()
             axis equal;
         end
         drawnow;
+        hold off;
         
         %ping = vrep.simxGetPingTime(id);
         elapsed = toc;
@@ -67,6 +68,7 @@ function start_mapping()
         comp_cicles = comp_cicles+1;
         avg_comp_time = avg_comp_time/comp_cicles;
         fprintf('Avarege computation time: %f\n', avg_comp_time);
+        pause(3);
         %pause(max(timestep-elapsed, 0.01));
         %pause(abs((timestep-elapsed) + (ping/2)));
     end
